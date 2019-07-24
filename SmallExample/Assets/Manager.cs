@@ -39,7 +39,6 @@ public class Manager : MonoBehaviour
         ObjectQueue.Enqueue(obj3);
         ObjectQueue.Enqueue(obj4);
 
-
         while (ObjectQueue.Count>0)
         {
             Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! Queue count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -48,35 +47,33 @@ public class Manager : MonoBehaviour
             GameObject objTemp = ObjectQueue.Dequeue();
             unit_comp = objTemp.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
             unit_comp.enabled = true;
-            ManagerGrid.CheckUnwalkable();
+            
             unit_comp.SetGrid(ManagerGrid);
+            ManagerGrid.CheckUnwalkable();
             unit_comp.ManagerGridForUnit();
+            //setting all the unwalkable&walkable
             unit_comp.StartFindPath(objTemp.transform.position, unit_comp.target.position);
 
             List<Node> ObjPath;
             ObjPath = unit_comp.PathTranfer();
 
-            yield return this.StartCoroutine(unit_comp.FollowPath());
-            //unit_comp.ManagerFollowpath();//有可能这句有问题！！！
-                                          //yield return new WaitForFixedUpdate(unit_comp);
+            if (!Movable(ObjPath))//if fail, unit set off, break
+            {
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                ObjectQueue.Enqueue(objTemp);
+                unit_comp.enabled = false;
+                yield return null;
+            }
+            else//if path success,move
+            {
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-            //objTemp = ObjectQueue.Dequeue();
+                yield return this.StartCoroutine(unit_comp.FollowPath());
+            }
             yield return null;
 
-            //if (!Movable(ObjPath))//if fail, unit set off, break
-            //{
-            //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            //    //ObjectQueue.Enqueue(objTemp);
-            //    //unit_comp.enabled = false;
-            //}
-            //else//if path success,move
-            //{
-            //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            //    unit_comp.ManagerFollowpath();//有可能这句有问题！！！
-            //                                  //yield return new WaitForFixedUpdate(unit_comp);
-
-            //    objTemp= ObjectQueue.Dequeue();
-            //}
+                       
+            
         }
 
     }

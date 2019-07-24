@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     public LayerMask unwalkableMask;
     List<Vector3> relative;
     List<Node> path = new List<Node>();
+    HashSet<Node> NodeForUnit = new HashSet<Node>();
     public Vector3[] waypoints;
     //Vector3[] path;
     Grid _grid;
@@ -89,6 +90,11 @@ public class Unit : MonoBehaviour
                         neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
                         neighbour.walkable = false;
                         //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
+                    }
+                    if (NodeForUnit.Contains(neighbour))
+                    {
+                        neighbour.hCost = GetDistance(neighbour, targetNode);
+                        neighbour.walkable = true;
                     }
                     //Debug.Log("///////////////////////// HIGH H  ///////////////////////////////");
                 }
@@ -293,6 +299,8 @@ public class Unit : MonoBehaviour
                 if (Physics.CheckBox(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition, halfExtents, transform.rotation, unwalkableMask))
                 {
                     relative.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition - transform.position);
+                    NodeForUnit.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j]);
+                    Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].walkable = true;
                     //Debug.Log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP   IS RELATIVE   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
                 }
             }
