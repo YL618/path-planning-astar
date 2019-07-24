@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     //Node gridNode;
     Grid Agrid;
     bool pathSuccess = false;
-    float speed = 60;
+    float speed = 120;
     int targetIndex;
     int relX;
     int relY;
@@ -68,36 +68,33 @@ public class Unit : MonoBehaviour
             {
                 pathSuccess = true;
                 Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FIND PATH IN FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!");
-                //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! UNWALKABLE NUMBER !!!!!!!!!!!!!!!!!!!!!!!!!!");
-                //Debug.Log(number);
-                //relative=null;
                 break;
             }
             foreach (Node neighbour in _grid.GetNeighbours(currentNode))
             {
                 bool checkR = CheckRelative(relative, neighbour.worldPosition);
-                if ((!neighbour.walkable) || checkR)
-                {
+                neighbour.hCost = GetDistance(neighbour, targetNode);
+
                     if (!neighbour.walkable)
-                    {
-                        neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                        //Debug.Log("///////////////////////// UNWALKABLE  ///////////////////////////////");
-                        //Debug.Log(neighbour.worldPosition);
-                        number++;
-                    }
+                        {
+                            neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                            //Debug.Log("///////////////////////// UNWALKABLE  ///////////////////////////////");
+                            //Debug.Log(neighbour.worldPosition);
+                            number++;
+                        }
                     if (checkR)
                     {
-                        if (NodeForUnit.Contains(neighbour))
-                        {
-                            neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                            neighbour.walkable = true;
+                        //if (NodeForUnit.Contains(neighbour))
+                        //{
+                        //    neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                        //    neighbour.walkable = true;
 
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
                             neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
                             neighbour.walkable = false;
-                        } 
+                        //} 
                         //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
                     }
                     if (NodeForUnit.Contains(neighbour))
@@ -106,9 +103,8 @@ public class Unit : MonoBehaviour
                         neighbour.walkable = true;
                     }
                     //Debug.Log("///////////////////////// HIGH H  ///////////////////////////////");
-                }
-                else
-                    neighbour.hCost = GetDistance(neighbour, targetNode);
+               
+                    
                 //所有前期处理，H都设好
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
                 //neighbour.gCost = newMovementCostToNeighbour;
@@ -176,7 +172,7 @@ public class Unit : MonoBehaviour
                 if(!NodeForUnit.Contains(_grid.NodeFromWorldPoint(current.worldPosition)))
                 {
                     check = true;
-                    continue;
+                    break;
                 }    
             }
 
@@ -299,8 +295,8 @@ public class Unit : MonoBehaviour
         halfExtents.y = Agrid.nodeRadius;
         halfExtents.z = Agrid.nodeRadius;
 
-        if (Mathf.CeilToInt(bigger / 2) == Mathf.CeilToInt((bigger + 1) / 2))//odd
-            bigger++;
+        //if (Mathf.CeilToInt(bigger / 2) == Mathf.CeilToInt((bigger + 1) / 2))//odd
+        //    bigger++;
         for (int i = 0; i < bigger; i++)
         {
             for (int j = 0; j < bigger; j++)

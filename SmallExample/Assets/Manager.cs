@@ -8,11 +8,17 @@ public class Manager : MonoBehaviour
     public GameObject obj2;
     public GameObject obj3;
     public GameObject obj4;
+    public GameObject obj5;
+    public GameObject obj6;
 
     public GameObject targ1;
     public GameObject targ2;
     public GameObject targ3;
     public GameObject targ4;
+    public GameObject targ5;
+    public GameObject targ6;
+
+
     public LayerMask unwalkableMask;
     public List<Vector3> relative;
 
@@ -26,6 +32,7 @@ public class Manager : MonoBehaviour
 
     //List<GameObject> ObjectList=new List<GameObject>();
     Queue<GameObject> ObjectQueue=new Queue<GameObject>();
+    Queue<GameObject> Sequence = new Queue<GameObject>();
     // Start is called before the first frame update
     public IEnumerator Start()
     {
@@ -38,6 +45,8 @@ public class Manager : MonoBehaviour
         ObjectQueue.Enqueue(obj2);
         ObjectQueue.Enqueue(obj3);
         ObjectQueue.Enqueue(obj4);
+        ObjectQueue.Enqueue(obj5);
+        ObjectQueue.Enqueue(obj6);
 
         while (ObjectQueue.Count>0)
         {
@@ -68,14 +77,15 @@ public class Manager : MonoBehaviour
             else//if path success,move
             {
                 Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+                Sequence.Enqueue(objTemp);
                 yield return this.StartCoroutine(unit_comp.FollowPath());
             }
             yield return null;
 
-                       
-            
         }
+
+
+
 
     }
     //foreach (GameObject obj in ObjectList)
