@@ -27,7 +27,7 @@ public class Manager : MonoBehaviour
     //List<GameObject> ObjectList=new List<GameObject>();
     Queue<GameObject> ObjectQueue=new Queue<GameObject>();
     // Start is called before the first frame update
-    public void Start()
+    public IEnumerator Start()
     {
         Debug.Log("1111111111111111111111111111 MANAGER START 1111111111111111111111111111111");
         GameObject astar = GameObject.Find("A*");
@@ -56,12 +56,12 @@ public class Manager : MonoBehaviour
             List<Node> ObjPath;
             ObjPath = unit_comp.PathTranfer();
 
-
-            unit_comp.ManagerFollowpath();//有可能这句有问题！！！
+            yield return this.StartCoroutine(unit_comp.FollowPath());
+            //unit_comp.ManagerFollowpath();//有可能这句有问题！！！
                                           //yield return new WaitForFixedUpdate(unit_comp);
 
-            objTemp = ObjectQueue.Dequeue();
-
+            //objTemp = ObjectQueue.Dequeue();
+            yield return null;
 
             //if (!Movable(ObjPath))//if fail, unit set off, break
             //{

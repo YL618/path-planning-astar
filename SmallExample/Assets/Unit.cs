@@ -15,7 +15,7 @@ public class Unit : MonoBehaviour
     Node gridNode;
     Grid Agrid;
     bool pathSuccess = false;
-    float speed = 20;
+    float speed = 50;
     int targetIndex;
     int relX;
     int relY;
@@ -215,10 +215,10 @@ public class Unit : MonoBehaviour
     public void ManagerFollowpath()
     {
         Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz MANAGER FOLLOWPATH zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-        //StartCoroutine(FollowPath());
-        FollowPath();
+        StartCoroutine(FollowPath());
+        //FollowPath();
     }
-    void FollowPath()//IEnumerator 
+    public IEnumerator FollowPath()//IEnumerator 
     {
         Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzz  FOLLOW PATH  zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
         Vector3 currentWaypoint = waypoints[0];
@@ -239,14 +239,14 @@ public class Unit : MonoBehaviour
                     //transform.rotation.x=target.rotation.z;
                     //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
                     //Debug.Log("-----------------------------------------------------------------------------");
-                    break;
-                    //yield break;
+                    //break;
+                    yield break;
                 }
                 currentWaypoint = waypoints[targetIndex];
             }
 
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-            //yield return null;
+            yield return null;
 
         }
 
