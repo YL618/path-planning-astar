@@ -215,9 +215,10 @@ public class Unit : MonoBehaviour
     public void ManagerFollowpath()
     {
         Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzzzzz MANAGER FOLLOWPATH zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-        StartCoroutine(FollowPath());
+        //StartCoroutine(FollowPath());
+        FollowPath();
     }
-    IEnumerator FollowPath()
+    void FollowPath()//IEnumerator 
     {
         Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzz  FOLLOW PATH  zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
         Vector3 currentWaypoint = waypoints[0];
@@ -238,14 +239,14 @@ public class Unit : MonoBehaviour
                     //transform.rotation.x=target.rotation.z;
                     //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
                     //Debug.Log("-----------------------------------------------------------------------------");
-
-                    yield break;
+                    break;
+                    //yield break;
                 }
                 currentWaypoint = waypoints[targetIndex];
             }
 
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-            yield return null;
+            //yield return null;
 
         }
 

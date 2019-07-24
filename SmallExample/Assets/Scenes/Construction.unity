@@ -1255,13 +1255,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj1: {fileID: 9537401}
-  obj2: {fileID: 0}
+  obj2: {fileID: 327755297}
   obj3: {fileID: 286631380}
   obj4: {fileID: 839889311}
   targ1: {fileID: 1073710998}
-  targ2: {fileID: 1073710998}
-  targ3: {fileID: 1073710998}
-  targ4: {fileID: 1073710998}
+  targ2: {fileID: 809162414}
+  targ3: {fileID: 1803838713}
+  targ4: {fileID: 1780205835}
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 512

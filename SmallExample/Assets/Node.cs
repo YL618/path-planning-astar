@@ -10,7 +10,7 @@ public class Node : IHeapItem<Node>
     public int gridX;
     public int gridY;
 
-    public int gCost=0;
+    public int gCost = 0;
     public int hCost;
     public Node parent;
     int heapIndex;

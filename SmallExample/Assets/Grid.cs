@@ -50,7 +50,7 @@ public class Grid : MonoBehaviour
                 //bool walkable = !(Physics.CheckBox(worldPoint, halfbox, transform.rotation, unwalkableMask));
                 bool walkable = !(Physics.CheckBox(worldPoint, halfbox, transform.rotation, unwalkableMask));
                 grid[x, y] = new Node(walkable, worldPoint, x, y);
-               
+
             }
         }
         Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GRID LENGTH !!!!!!!!!!!!!!!!!!!!!!!!!!");

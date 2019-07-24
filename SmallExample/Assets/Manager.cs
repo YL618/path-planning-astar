@@ -24,7 +24,8 @@ public class Manager : MonoBehaviour
     bool FollowFinish=true;
     bool pathSuccess = false;
 
-    List<GameObject> ObjectList=new List<GameObject>();
+    //List<GameObject> ObjectList=new List<GameObject>();
+    Queue<GameObject> ObjectQueue=new Queue<GameObject>();
     // Start is called before the first frame update
     public void Start()
     {
@@ -32,67 +33,101 @@ public class Manager : MonoBehaviour
         GameObject astar = GameObject.Find("A*");
         ManagerGrid = astar.GetComponent(typeof(Grid)) as Grid;//get grid value
 
-        //Add all the objects to the list
-        ObjectList.Add(obj1);
-        ObjectList.Add(obj2);
-        ObjectList.Add(obj3);
-        ObjectList.Add(obj4);
+        //Add all the objects to the queue
+        ObjectQueue.Enqueue(obj1);
+        ObjectQueue.Enqueue(obj2);
+        ObjectQueue.Enqueue(obj3);
+        ObjectQueue.Enqueue(obj4);
 
-        if (ObjectList.Count > 0)
+
+        while (ObjectQueue.Count>0)
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! List count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Debug.Log(ObjectList.Count);
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! Queue count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Debug.Log(ObjectQueue.Count);
 
-            foreach (GameObject obj in ObjectList)
-            {
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SWITCH GAME OBJ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                //想要只有在前一个path走完之后再走
+            GameObject objTemp = ObjectQueue.Dequeue();
+            unit_comp = objTemp.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
+            unit_comp.enabled = true;
+            ManagerGrid.CheckUnwalkable();
+            unit_comp.SetGrid(ManagerGrid);
+            unit_comp.ManagerGridForUnit();
+            unit_comp.StartFindPath(objTemp.transform.position, unit_comp.target.position);
 
-                unit_comp = obj.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
-                unit_comp.enabled = true;
-                ManagerGrid.CheckUnwalkable();
-                unit_comp.SetGrid(ManagerGrid);
-                unit_comp.ManagerGridForUnit();
-                //unit_comp.GridForUnit();
-                unit_comp.StartFindPath(obj.transform.position, unit_comp.target.position);
-                
-                    //unit_comp.enabled = true;//start unit do the pathfinding in unit, will always fiure out a path
-                                             //ObjWaypoints = unit_comp.WayPoints();
+            List<Node> ObjPath;
+            ObjPath = unit_comp.PathTranfer();
 
-                    //since the system will go through the strat function before calling unit's start function
-                    //we have to move all the commands in unit's start function here!!!!!
 
-                    //unit_comp.SetGrid(ManagerGrid);
-                    
-                    //unit_comp.ManagerGridForUnit();
-                    //StartFindPath(obj.transform.position, unit_comp.target.position);//only find, not move
-                    
-                    //StartFindPath(obj.transform.position, unit_comp.target.position, unit_comp);
+            unit_comp.ManagerFollowpath();//有可能这句有问题！！！
+                                          //yield return new WaitForFixedUpdate(unit_comp);
 
-                    //After that the path isn't empty anymore
-                    List<Node> ObjPath;
-                    ObjPath = unit_comp.PathTranfer();//get the path from unit
+            objTemp = ObjectQueue.Dequeue();
 
-                    if (!Movable(ObjPath))//if fail, unit set off, break
-                    {
-                        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        ObjectList.Remove(obj);
-                        ObjectList.Add(obj);
-                        unit_comp.enabled = false;
-                        continue;
-                    }
-                    else//if path success,move
-                    {
-                        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        unit_comp.ManagerFollowpath();//有可能这句有问题！！！
-                        //yield return new WaitForFixedUpdate(unit_comp);
-                        
-                        //yield return null;
-                    }
-            }
+
+            //if (!Movable(ObjPath))//if fail, unit set off, break
+            //{
+            //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //    //ObjectQueue.Enqueue(objTemp);
+            //    //unit_comp.enabled = false;
+            //}
+            //else//if path success,move
+            //{
+            //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //    unit_comp.ManagerFollowpath();//有可能这句有问题！！！
+            //                                  //yield return new WaitForFixedUpdate(unit_comp);
+
+            //    objTemp= ObjectQueue.Dequeue();
+            //}
         }
 
     }
+    //foreach (GameObject obj in ObjectList)
+    //{
+    //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SWITCH GAME OBJ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //    //想要只有在前一个path走完之后再走
+
+    //    unit_comp = obj.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
+    //    unit_comp.enabled = true;
+    //    ManagerGrid.CheckUnwalkable();
+    //    unit_comp.SetGrid(ManagerGrid);
+    //    unit_comp.ManagerGridForUnit();
+    //    //unit_comp.GridForUnit();
+    //    unit_comp.StartFindPath(obj.transform.position, unit_comp.target.position);
+
+    //        //unit_comp.enabled = true;//start unit do the pathfinding in unit, will always fiure out a path
+    //                                 //ObjWaypoints = unit_comp.WayPoints();
+
+    //        //since the system will go through the strat function before calling unit's start function
+    //        //we have to move all the commands in unit's start function here!!!!!
+
+    //        //unit_comp.SetGrid(ManagerGrid);
+
+    //        //unit_comp.ManagerGridForUnit();
+    //        //StartFindPath(obj.transform.position, unit_comp.target.position);//only find, not move
+
+    //        //StartFindPath(obj.transform.position, unit_comp.target.position, unit_comp);
+
+    //        //After that the path isn't empty anymore
+    //        List<Node> ObjPath;
+    //        ObjPath = unit_comp.PathTranfer();//get the path from unit
+
+    //        if (!Movable(ObjPath))//if fail, unit set off, break
+    //        {
+    //            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //            ObjectList.Remove(obj);
+    //            ObjectList.Add(obj);
+    //            unit_comp.enabled = false;
+    //            continue;
+    //        }
+    //        else//if path success,move
+    //        {
+    //            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //            unit_comp.ManagerFollowpath();//有可能这句有问题！！！
+    //            //yield return new WaitForFixedUpdate(unit_comp);
+
+    //            //yield return null;
+    //        }
+    //}
+
 
     bool Movable(List<Node> CheckList)
     {
