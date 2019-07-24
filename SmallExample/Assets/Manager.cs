@@ -10,6 +10,11 @@ public class Manager : MonoBehaviour
     public GameObject obj4;
     public GameObject obj5;
     public GameObject obj6;
+    public GameObject obj7;
+    public GameObject obj8;
+    public GameObject obj9;
+    public GameObject obj10;
+    public GameObject obj11;
 
     public GameObject targ1;
     public GameObject targ2;
@@ -17,6 +22,11 @@ public class Manager : MonoBehaviour
     public GameObject targ4;
     public GameObject targ5;
     public GameObject targ6;
+    public GameObject targ7;
+    public GameObject targ8;
+    public GameObject targ9;
+    public GameObject targ10;
+    public GameObject targ11;
 
 
     public LayerMask unwalkableMask;
@@ -47,6 +57,11 @@ public class Manager : MonoBehaviour
         ObjectQueue.Enqueue(obj4);
         ObjectQueue.Enqueue(obj5);
         ObjectQueue.Enqueue(obj6);
+        ObjectQueue.Enqueue(obj7);
+        ObjectQueue.Enqueue(obj8);
+        ObjectQueue.Enqueue(obj9);
+        ObjectQueue.Enqueue(obj10);
+        ObjectQueue.Enqueue(obj11);
 
         while (ObjectQueue.Count>0)
         {

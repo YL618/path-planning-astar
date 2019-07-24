@@ -119,19 +119,19 @@ public class Grid : MonoBehaviour
         return grid[x, y];
     }
 
-    void OnDrawGizmos()
-    {
+    //void OnDrawGizmos()
+    //{
 
-        Debug.Log("|||||||||||||||||||||||||||  ON DRAW GIZMOS ||||||||||||||||||||||||||||||");
+    //    Debug.Log("|||||||||||||||||||||||||||  ON DRAW GIZMOS ||||||||||||||||||||||||||||||");
 
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        if (grid != null)//&& displayGridGizmos)
-        {
-            foreach (Node n in grid)
-            {
-                Gizmos.color = (n.walkable) ? Color.white : Color.red;
-                Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-            }
-        }
-    }
+    //    Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    //    if (grid != null)//&& displayGridGizmos)
+    //    {
+    //        foreach (Node n in grid)
+    //        {
+    //            Gizmos.color = (n.walkable) ? Color.white : Color.red;
+    //            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
+    //        }
+    //    }
+    //}
 }

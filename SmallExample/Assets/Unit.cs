@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
     //Node gridNode;
     Grid Agrid;
     bool pathSuccess = false;
-    float speed = 120;
+    float speed = 200;
     int targetIndex;
     int relX;
     int relY;
@@ -82,22 +82,22 @@ public class Unit : MonoBehaviour
                             //Debug.Log(neighbour.worldPosition);
                             number++;
                         }
-                    if (checkR)
-                    {
-                        //if (NodeForUnit.Contains(neighbour))
-                        //{
-                        //    neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                        //    neighbour.walkable = true;
+                if (checkR)
+                {
+                    //if (NodeForUnit.Contains(neighbour))
+                    //{
+                    //    neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                    //    neighbour.walkable = true;
 
-                        //}
-                        //else
-                        //{
-                            neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                            neighbour.walkable = false;
-                        //} 
-                        //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
-                    }
-                    if (NodeForUnit.Contains(neighbour))
+                    //}
+                    //else
+                    //{
+                    neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                    neighbour.walkable = false;
+                    //} 
+                    //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
+                }
+                if (NodeForUnit.Contains(neighbour))
                     {
                         neighbour.hCost = GetDistance(neighbour, targetNode);
                         neighbour.walkable = true;
@@ -282,13 +282,16 @@ public class Unit : MonoBehaviour
         relX = Mathf.CeilToInt(transform.localScale.x);
         relY = Mathf.CeilToInt(transform.localScale.z);
 
-        if (relX < relY)
-            bigger = Mathf.CeilToInt(relY / (_grid.nodeRadius * 2));
-        else
-            bigger = Mathf.CeilToInt(relX / (_grid.nodeRadius * 2));
+        int Xcount= Mathf.CeilToInt(relX / (_grid.nodeRadius * 2))+2;
+        int Ycount= Mathf.CeilToInt(relY / (_grid.nodeRadius * 2))+2;
+
+        //if (relX < relY)
+        //    bigger = Mathf.CeilToInt(relY / (_grid.nodeRadius * 2));
+        //else
+        //    bigger = Mathf.CeilToInt(relX / (_grid.nodeRadius * 2));
 
         Debug.Log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   RELY    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        Debug.Log(bigger);
+        //Debug.Log(bigger);
         //MESH COLLIDER
         Vector3 halfExtents;
         halfExtents.x = Agrid.nodeRadius;
@@ -297,18 +300,18 @@ public class Unit : MonoBehaviour
 
         //if (Mathf.CeilToInt(bigger / 2) == Mathf.CeilToInt((bigger + 1) / 2))//odd
         //    bigger++;
-        for (int i = 0; i < bigger; i++)
+        for (int i = 0; i < Xcount; i++)
         {
-            for (int j = 0; j < bigger; j++)
+            for (int j = 0; j < Ycount; j++)
             {
                 //Physics.CheckSphere(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger/2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition, Agrid.nodeRadius, unwalkableMask)
                 Quaternion qua;
                 qua = Quaternion.Euler(0, 0, 0);
-                if (Physics.CheckBox(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition, halfExtents, transform.rotation, unwalkableMask))
+                if (Physics.CheckBox(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].worldPosition, halfExtents, transform.rotation, unwalkableMask))
                 {
-                    relative.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition - transform.position);
-                    NodeForUnit.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j]);
-                    Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger / 2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].walkable = true;
+                    relative.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].worldPosition - transform.position);
+                    NodeForUnit.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j]);
+                    Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].walkable = true;
                     //Debug.Log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP   IS RELATIVE   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
                 }
             }
