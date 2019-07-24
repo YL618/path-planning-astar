@@ -62,6 +62,7 @@ public class Manager : MonoBehaviour
                 Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 ObjectQueue.Enqueue(objTemp);
                 unit_comp.enabled = false;
+                Clear(unit_comp);
                 yield return null;
             }
             else//if path success,move
@@ -137,60 +138,14 @@ public class Manager : MonoBehaviour
         return movable;
     }
 
+    void Clear(Unit unit)
+    {
+        unit.relative.Clear();
+        unit.path.Clear();
+        unit.NodeForUnit.Clear();
+        unit.waypoints= new Vector3[0];
+    }
 
-    //Vector3[] PathA(List<Node> path)
-    //{
-    //    List<Vector3> Awaypoints = new List<Vector3>();
-
-    //    for (int i = 0; i < path.Count; i++)
-    //    {
-    //        Awaypoints.Add(path[i].worldPosition);
-    //    }
-    //    return Awaypoints.ToArray();
-    //}
-
-    //int GetDistance(Node nodeA, Node nodeB)
-    //{
-    //    int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
-    //    int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
-
-    //    if (dstX > dstY)
-    //        return 14 * dstY + 10 * (dstX - dstY);
-    //    return 14 * dstX + 10 * (dstY - dstX);
-    //}
-
-    //IEnumerator FollowPath(Unit unit)
-    //{
-    //    Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-    //    Vector3 currentWaypoint = waypoints[0];
-
-    //    while (true)
-    //    {
-    //        if (transform.position == currentWaypoint)
-    //        {
-    //            targetIndex++;
-    //            if (targetIndex >= waypoints.Length)
-    //            {
-    //                targetIndex = 0;
-    //                waypoints = new Vector3[0];
-    //                transform.position = unit.target.position;
-    //                //transform.rotation.x=target.rotation.x;
-    //                //transform.rotation.x = target.rotation.y;
-    //                //transform.rotation.x=target.rotation.z;
-    //                //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
-    //                Debug.Log("-----------------------------------------------------------------------------");
-
-    //                yield break;
-    //            }
-    //            currentWaypoint = waypoints[targetIndex];
-    //        }
-
-    //        transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-    //        yield return null;
-
-    //    }
-
-    //}
 
 
 

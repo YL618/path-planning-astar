@@ -121,8 +121,11 @@ public class Grid : MonoBehaviour
 
     //void OnDrawGizmos()
     //{
+
+    //    Debug.Log("|||||||||||||||||||||||||||  ON DRAW GIZMOS ||||||||||||||||||||||||||||||");
+
     //    Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-    //    if (grid != null )//&& displayGridGizmos)
+    //    if (grid != null)//&& displayGridGizmos)
     //    {
     //        foreach (Node n in grid)
     //        {

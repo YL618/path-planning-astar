@@ -7,21 +7,21 @@ public class Unit : MonoBehaviour
 {
     public Transform target;
     public LayerMask unwalkableMask;
-    List<Vector3> relative;
-    List<Node> path = new List<Node>();
-    HashSet<Node> NodeForUnit = new HashSet<Node>();
+    public List<Vector3> relative;
+    public List<Node> path = new List<Node>();
+    public HashSet<Node> NodeForUnit = new HashSet<Node>();
     public Vector3[] waypoints;
     //Vector3[] path;
     Grid _grid;
-    Node gridNode;
+    //Node gridNode;
     Grid Agrid;
     bool pathSuccess = false;
-    float speed = 50;
+    float speed = 60;
     int targetIndex;
     int relX;
     int relY;
     int bigger;
-    int size ;
+    //int size ;
     public void Start()
     {
         //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.x, target.rotation.x);
@@ -87,8 +87,17 @@ public class Unit : MonoBehaviour
                     }
                     if (checkR)
                     {
-                        neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                        neighbour.walkable = false;
+                        if (NodeForUnit.Contains(neighbour))
+                        {
+                            neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                            neighbour.walkable = true;
+
+                        }
+                        else
+                        {
+                            neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
+                            neighbour.walkable = false;
+                        } 
                         //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
                     }
                     if (NodeForUnit.Contains(neighbour))
@@ -164,8 +173,11 @@ public class Unit : MonoBehaviour
             //Physics.CheckSphere(relatePosition, Agrid.nodeRadius, unwalkableMask)    
             if (Physics.CheckBox(current.worldPosition, halfExtents, transform.rotation, unwalkableMask))
             {
-                check = true;
-                continue;
+                if(!NodeForUnit.Contains(_grid.NodeFromWorldPoint(current.worldPosition)))
+                {
+                    check = true;
+                    continue;
+                }    
             }
 
         }
@@ -314,6 +326,19 @@ public class Unit : MonoBehaviour
 
     public void OnDrawGizmos()
     {
+        //Gizmos.DrawWireCube(transform.position, new Vector3(_grid.gridWorldSize.x, 1, _grid.gridWorldSize.y));
+        //if (_grid.grid != null)//&& displayGridGizmos)
+        //{
+        //    foreach (Node n in _grid.grid)
+        //    {
+        //        Gizmos.color = (n.walkable) ? Color.white : Color.red;
+        //        Gizmos.DrawCube(n.worldPosition, Vector3.one * ((_grid.nodeRadius * 2) - .1f));
+        //    }
+        //}
+
+
+
+
         if (waypoints != null)
         {
             for (int i = targetIndex; i < waypoints.Length; i++)
