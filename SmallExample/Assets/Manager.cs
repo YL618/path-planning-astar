@@ -50,11 +50,12 @@ public class Manager : MonoBehaviour
 
                 unit_comp = obj.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
                 unit_comp.enabled = true;
-                unit_comp.StartFindPath(obj.transform.position, unit_comp.target.position);
                 ManagerGrid.CheckUnwalkable();
-                unit_comp.GridForUnit();
+                unit_comp.SetGrid(ManagerGrid);
+                unit_comp.ManagerGridForUnit();
+                //unit_comp.GridForUnit();
+                unit_comp.StartFindPath(obj.transform.position, unit_comp.target.position);
                 
-
                     //unit_comp.enabled = true;//start unit do the pathfinding in unit, will always fiure out a path
                                              //ObjWaypoints = unit_comp.WayPoints();
 
@@ -68,7 +69,7 @@ public class Manager : MonoBehaviour
                     
                     //StartFindPath(obj.transform.position, unit_comp.target.position, unit_comp);
 
-                //After that the path isn't empty anymore
+                    //After that the path isn't empty anymore
                     List<Node> ObjPath;
                     ObjPath = unit_comp.PathTranfer();//get the path from unit
 
@@ -83,11 +84,11 @@ public class Manager : MonoBehaviour
                     else//if path success,move
                     {
                         Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        //unit_comp.ManagerFollowpath();//有可能这句有问题！！！
+                        unit_comp.ManagerFollowpath();//有可能这句有问题！！！
                         //yield return new WaitForFixedUpdate(unit_comp);
                         
                         //yield return null;
-                }
+                    }
             }
         }
 

@@ -23,17 +23,19 @@ public class Unit : MonoBehaviour
     int size ;
     public void Start()
     {
-        transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.x, target.rotation.x);
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! UNIT START !!!!!!!!!!!!!!!!!!!!!!!!!!");
-        GameObject astar = GameObject.Find("A*");
-        _grid = astar.GetComponent(typeof(Grid)) as Grid;
-        transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
-        _grid.CheckUnwalkable();
-        GridForUnit();
-        StartFindPath(transform.position, target.position);//only find, not move
-        Debug.Log("8888888888888888888888   START END   88888888888888888888888888888888888888888");
-        GameObject.Find("").SendMessage("");
-        _grid.NodeFromWorldPoint(transform.position);
+        //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.x, target.rotation.x);
+        //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! UNIT START !!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //GameObject astar = GameObject.Find("A*");
+        //_grid = astar.GetComponent(typeof(Grid)) as Grid;
+        //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
+
+        //_grid.CheckUnwalkable();
+        //GridForUnit();
+        //StartFindPath(transform.position, target.position);//only find, not move
+
+        //Debug.Log("8888888888888888888888   START END   88888888888888888888888888888888888888888");
+        //GameObject.Find("").SendMessage("");
+        //_grid.NodeFromWorldPoint(transform.position);
     }
 
     public void SetGrid(Grid incomeGrid)
@@ -252,7 +254,7 @@ public class Unit : MonoBehaviour
     {
         GridForUnit();
     }
-    public void GridForUnit()
+    void GridForUnit()
     {
         Debug.Log("&&&&&&&&&&&&&&&&&&&&&&&& GRID FOR UNIT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
         Node centerNode;
