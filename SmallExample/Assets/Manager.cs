@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 public class Manager : MonoBehaviour
 {
     public GameObject obj1;
@@ -15,6 +16,14 @@ public class Manager : MonoBehaviour
     public GameObject obj9;
     public GameObject obj10;
     public GameObject obj11;
+    public GameObject obj12;
+    public GameObject obj13;
+    public GameObject obj14;
+    public GameObject obj15;
+    public GameObject obj16;
+    public GameObject obj17;
+    public GameObject obj18;
+    public GameObject obj19;
 
     public GameObject targ1;
     public GameObject targ2;
@@ -27,6 +36,14 @@ public class Manager : MonoBehaviour
     public GameObject targ9;
     public GameObject targ10;
     public GameObject targ11;
+    public GameObject targ12;
+    public GameObject targ13;
+    public GameObject targ14;
+    public GameObject targ15;
+    public GameObject targ16;
+    public GameObject targ17;
+    public GameObject targ18;
+    public GameObject targ19;
 
 
     public LayerMask unwalkableMask;
@@ -34,6 +51,8 @@ public class Manager : MonoBehaviour
 
     List<Node> path;
     Vector3[] waypoints;
+
+    Stopwatch sw = new Stopwatch();
 
     private Unit unit_comp;
     Grid ManagerGrid;
@@ -46,7 +65,10 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     public IEnumerator Start()
     {
-        Debug.Log("1111111111111111111111111111 MANAGER START 1111111111111111111111111111111");
+        //Debug.Log("1111111111111111111111111111 MANAGER START 1111111111111111111111111111111");
+
+        sw.Start();
+
         GameObject astar = GameObject.Find("A*");
         ManagerGrid = astar.GetComponent(typeof(Grid)) as Grid;//get grid value
 
@@ -62,11 +84,24 @@ public class Manager : MonoBehaviour
         ObjectQueue.Enqueue(obj9);
         ObjectQueue.Enqueue(obj10);
         ObjectQueue.Enqueue(obj11);
+        ObjectQueue.Enqueue(obj12);
+        ObjectQueue.Enqueue(obj13);
+        ObjectQueue.Enqueue(obj14);
+        ObjectQueue.Enqueue(obj15);
+        ObjectQueue.Enqueue(obj16);
+        ObjectQueue.Enqueue(obj17);
+        //ObjectQueue.Enqueue(obj18);
+        //ObjectQueue.Enqueue(obj19);
+
+        //ObjectQueue.Enqueue(obj2);
+        //ObjectQueue.Enqueue(obj3);
+        //ObjectQueue.Enqueue(obj5);
+        //ObjectQueue.Enqueue(obj6);
 
         while (ObjectQueue.Count>0)
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! Queue count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Debug.Log(ObjectQueue.Count);
+            //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! Queue count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //Debug.Log(ObjectQueue.Count);
 
             GameObject objTemp = ObjectQueue.Dequeue();
             unit_comp = objTemp.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
@@ -83,7 +118,7 @@ public class Manager : MonoBehaviour
 
             if (!Movable(ObjPath))//if fail, unit set off, break
             {
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 ObjectQueue.Enqueue(objTemp);
                 unit_comp.enabled = false;
                 Clear(unit_comp);
@@ -91,7 +126,8 @@ public class Manager : MonoBehaviour
             }
             else//if path success,move
             {
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                print("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 Sequence.Enqueue(objTemp);
                 yield return this.StartCoroutine(unit_comp.FollowPath());
             }
@@ -99,6 +135,13 @@ public class Manager : MonoBehaviour
 
         }
 
+
+        print("!!!!!!!!!!!!!!!!!!!!!!!! LALALAALLALALALALLA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (ObjectQueue.Count == 0)
+        {
+            sw.Stop();
+            print("Finish Disassemble, total time" + sw.ElapsedMilliseconds + "ms");
+        }
 
 
 
