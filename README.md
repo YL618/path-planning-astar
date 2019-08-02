@@ -13,14 +13,14 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 	* Empty game object for A*, Manager, Target (Create->Create Empty)
 <br><div align=center><img width="400" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/3.png"/></div>
 3.	Attach the Unit script to the object, drag the target to the holder of “Target” in unit script
-<br><div align=center><img width="400" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/4.png"/></div>
+<br><div align=center><img width="400" height="120" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/4.png"/></div>
 4.	Set all the collideable object’s layer to a special layer in the inspector window, including floor, objects, target (in my project the layer is called Unwalkable Layer
-<br><div align=center><img width="400" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/5.png"/></div>
+<br><div align=center><img width="400" height="120" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/5.png"/></div>
 5.	Drag different object to the holder of “object” and “target” in game object manager’s manager script, select the layer for the unwalkable layer
 <br><div align=center><img width="400" height="350" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/6.png"/></div>
 6.	Note that the target should be carefully selected to avoid collision in the end
 ## Basic flow of the algorithm (Right side is for the current code)
-<br><div align=center><img width="600" height="400" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/7.png"/></div>
+<br><div align=center><img width="600" height="300" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/7.png"/></div>
 ## Currently there is some limit for the current algorithm in the following aspects:
 
 * Time consuming for more walls.
@@ -64,6 +64,6 @@ The above algorithm can successfully generate a path for each wall regardless of
 For every process, we moved the wall to the target position and deleted this wall member from the queue making the number of the walls in the queue to decrease. The algorithm will continue running until the number of walls in the queue is zero, meaning all the walls we wanted to move are in their target position. 
 <br>The whole process is shown in the picture below (see Figure 2). With this process, we are able to predict the right sequence for moving all the walls. For example, in the figure below (see Figure 3), the wall marked with stripes was stored as the 3rd wall the original sequence of the queue, but it will cause collision with the dotted wall if we don’t move the dotted wall from its original position. Following the process of the algorithm, we will skip the striped wall first by deleting it from the current position and add to the last position of the queue to see if we can generate an identical path for it later.
 <br><div align=center><img width="400" height="250" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/9.png"/></div>
-<br><div align=center><img width="500" height="200" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/10.png"/></div>
+<br><div align=center><img width="500" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/10.png"/></div>
 
 
