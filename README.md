@@ -1,4 +1,4 @@
-#Lab Summary
+# Lab Summary
 <br>The A* algorithm is developed on the base of [this](https://www.youtube.com/watch?v=-L-WgKMFuhE&list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW&index=1)
 tutorial (Note that the heuristic method isn’t used in the code of this script.
 <br>To better understand the heuristic and A* see [here](http://theory.stanford.edu/~amitp/GameProgramming/).
