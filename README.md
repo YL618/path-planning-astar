@@ -6,7 +6,7 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 1.	Add object and target in the manager script, check manager script is attached to the game object manager, and A* script is attached to game object A*.
 <div align=center><img width="400" height="250" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/1.png"/></div>
 
-<div align=center><img width="400" height="0" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/2.png"/></div>
+<div align=center><img width="400" height="50" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/2.png"/></div>
 
 2.	Add object in unity, in this scene, there are 2 types of game object
 	* 3D object for obstacle, walls, and floor (Create->3D object->Cube)
