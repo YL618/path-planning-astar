@@ -25,4 +25,13 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 	* Use data structure or better method in Unity to refine the algorithm.
 	* Improve the interface especially in the part of adding walls to the scene, right now its too cumbersome
 	* Apply ML agent to the disassemble problem.
+## Following are an explanation of how the algorithm goes
+## Implement A* path finding algorithm
+
+There are four steps for implementing the A* algorithm in the assembly situation (see Figure 1).
+<br>First, a grid was setup to create all the available nodes in our world environment. Next, the heuristic (h) value of the formula was modified and marked whether each node was walkable. For this step, three aspects need to be taken into consideration. 
+
+	* The Physics function in Unity detects the nodes occupied by an object on the plane. These nodes are assigned a high h value to mark the node as unwalkable
+	* The unoccupied nodes are then checked to see which ones will cause a collision between walls if the to-move wall is on the node. The number of nodes a wall occupies on either side of its center is stored, and the Physics function is used to determine if a collision occurs as the wall moves to a specific node. If a collision occurs at a node, the node is assigned a high h value.
+	* All the other nodes are safe to move on. They are assigned a low h value to mark them as walkable.
 
