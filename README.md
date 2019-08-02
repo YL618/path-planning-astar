@@ -22,7 +22,7 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 ## Basic flow of the algorithm (Right side is for the current code, see more explaination later)
 <div align=center><img width="600" height="300" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/7.png"/></div>
 
-## Currently there is some limit for the current algorithm in the following aspects:
+## Currently there is some limit for the algorithm in the following aspects:
 
 * Time consuming for more walls.
 * Smaller grid radius promises a secure performance avoiding collision, but will sacrifices time to do so.
