@@ -15,7 +15,7 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 ## Basic flow of the algorithm (Right side is for the current code)
 ## Currently there is some limit for the current algorithm in the following aspects:
 
-	* Time consuming for more walls.
+* Time consuming for more walls.
 	* Smaller grid radius promises a secure performance avoiding collision, but will sacrifices time to do so.
 	* Target need to be pre-selected in case of collision between moved walls.
 	* Interface is complex and not that easy to use.
