@@ -16,16 +16,16 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 ## Currently there is some limit for the current algorithm in the following aspects:
 
 * Time consuming for more walls.
-	* Smaller grid radius promises a secure performance avoiding collision, but will sacrifices time to do so.
-	* Target need to be pre-selected in case of collision between moved walls.
-	* Interface is complex and not that easy to use.
+* Smaller grid radius promises a secure performance avoiding collision, but will sacrifices time to do so.
+* Target need to be pre-selected in case of collision between moved walls.
+* Interface is complex and not that easy to use.
 	
 ## Things needed to be considered for future study are listed below:
 
-	* Add rotation part to the algorithm.
-	* Use data structure or better method in Unity to refine the algorithm.
-	* Improve the interface especially in the part of adding walls to the scene, right now its too cumbersome
-	* Apply ML agent to the disassemble problem.
+* Add rotation part to the algorithm.
+* Use data structure or better method in Unity to refine the algorithm.
+* Improve the interface especially in the part of adding walls to the scene, right now its too cumbersome
+* Apply ML agent to the disassemble problem.
 ## Following are an explanation of how the algorithm goes
 ## Implement A* path finding algorithm
 
