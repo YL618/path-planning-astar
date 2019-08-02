@@ -21,6 +21,7 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 6.	Note that the target should be carefully selected to avoid collision in the end
 ## Basic flow of the algorithm (Right side is for the current code)
 <div align=center><img width="600" height="300" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/7.png"/></div>
+
 ## Currently there is some limit for the current algorithm in the following aspects:
 
 * Time consuming for more walls.
