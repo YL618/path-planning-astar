@@ -1,57 +1,13 @@
-# UNITY Astar
-## An implementation of the A* Search Algorithm in JavaScript
-
-See a demo at http://www.briangrinstead.com/files/astar/
-
-## Sample Usage
-
-If you want just the A* search code (not the demo visualization), use code like this http://gist.github.com/581352
-```js
-<script type='text/javascript' src='astar.js'></script>
-<script type='text/javascript'>
-	var graph = new Graph([
-		[1,1,1,1],
-		[0,1,1,0],
-		[0,0,1,1]
-	]);
-	var start = graphDiagonal.grid[0][0];
-	var end = graphDiagonal.grid[1][2];
-	var resultWithDiagonals = astar.search(graphDiagonal, start, end, { heuristic: astar.heuristics.diagonal });
-	// Weight can easily be added by increasing the values within the graph, and where 0 is infinite (a wall)
-	var graphWithWeight = new Graph([
-		[1,1,2,30],
-		[0,4,1.3,0],
-		[0,0,5,1]
-	]);
-	var startWithWeight = graphWithWeight.grid[0][0];
-	var endWithWeight = graphWithWeight.grid[1][2];
-	var resultWithWeight = astar.search(graphWithWeight, startWithWeight, endWithWeight);
-	// resultWithWeight is an array containing the shortest path taking into account the weight of a node
-</script>
-```
-A few notes about weight values:
-
-1. A weight of 0 denotes a wall.
-2. A weight cannot be negative.
-3. A weight cannot be between 0 and 1 (exclusive).
-4. A weight can contain decimal values (greater than 1).
-
-### Original (slower) implementation
-
-The original version of the algorithm used a list, and was a bit clearer but much slower.  It was based off the [original blog post](http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript).  The code is available at: https://github.com/bgrins/javascript-astar/tree/0.0.1/original-implementation.
-
-The newest version of the algorithm using a Binary Heap.  It is quite faster than the original.
-http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated
-Binary Heap taken from http://eloquentjavascript.net/appendix2.html (license: http://creativecommons.org/licenses/by/3.0/)
-
-
-## Running the test suite
-
-[![Build Status](https://travis-ci.org/bgrins/javascript-astar.png?branch=master)](https://travis-ci.org/bgrins/javascript-astar)
-
-If you don't have grunt installed, follow the [grunt getting started guide](http://gruntjs.com/getting-started) first.
-
-Pull down the project, then run:
-
-		npm install
-		grunt
+#Lab Summary
+<br>The A* algorithm is developed on the base of [this](https://www.youtube.com/watch?v=-L-WgKMFuhE&list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW&index=1)
+tutorial (Note that the heuristic method isn’t used in the code of this script.
+<br>To better understand the heuristic and A* see [here](http://theory.stanford.edu/~amitp/GameProgramming/).
+##Steps for using the project
+<br>1.	Add object and target in the manager script, check manager script is attached to the game object manager, and A* script is attached to game object A*.
+<br>2.	Add object in unity, in this scene, there are 2 types of game object
+	* 3D object for obstacle, walls, and floor (Create->3D object->Cube)
+	* Empty game object for A*, Manager, Target (Create->Create Empty)
+<br>3.	Attach the Unit script to the object, drag the target to the holder of “Target” in unit script
+<br>4.	Set all the collideable object’s layer to a special layer in the inspector window, including floor, objects, target (in my project the layer is called Unwalkable Layer
+<br>5.	Drag different object to the holder of “object” and “target” in game object manager’s manager script, select the layer for the unwalkable layer
+<br>6.	Note that the target should be carefully selected to avoid collision in the end
