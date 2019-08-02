@@ -30,8 +30,8 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 ## Implement A* path finding algorithm
 
 There are four steps for implementing the A* algorithm in the assembly situation (see Figure 1).
-First, a grid was setup to create all the available nodes in our world environment. 
-Next, the heuristic (h) value of the formula was modified and marked whether each node was walkable. For this step, three aspects need to be taken into consideration. 
+<br>First, a grid was setup to create all the available nodes in our world environment. 
+<br>Next, the heuristic (h) value of the formula was modified and marked whether each node was walkable. For this step, three aspects need to be taken into consideration. 
 
 * The Physics function in Unity detects the nodes occupied by an object on the plane. These nodes are assigned 
 	<br>a high h value to mark the node as unwalkable
@@ -41,7 +41,7 @@ Next, the heuristic (h) value of the formula was modified and marked whether eac
 	<br>If a collision occurs at a node, the node is assigned a high h value.
 * All the other nodes are safe to move on. They are assigned a low h value to mark them as walkable.
 
-Third, start A* pathfinding. Beginning with the start node, the algorithm will select the neighbor (collection of nodes) 
+<br>Third, start A* pathfinding. Beginning with the start node, the algorithm will select the neighbor (collection of nodes) 
 with the lowest f value before each step. Note, since we already modified the h value of each node and we know the formula
 of calculating f we can easily predict that the algorithm will automatically avoid selecting the neighbor node with a high h value. 
 <br>Fourth, if the neighbor node being moved to is the target node, the algorithm has successfully found the path. End the A* algorithm 
