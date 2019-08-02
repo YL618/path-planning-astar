@@ -4,7 +4,10 @@ tutorial (Note that the heuristic method isn’t used in the code of this script
 <br>To better understand the heuristic and A* see [here](http://theory.stanford.edu/~amitp/GameProgramming/).
 ## Steps for using the project
 1.	Add object and target in the manager script, check manager script is attached to the game object manager, and A* script is attached to game object A*.
-<div align=center><img width="150" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/1.png"/></div>
+<div align=center><img width="500" height="300" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/1.png"/></div>
+
+<div align=center><img width="500" height="100" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/2.png"/></div>
+
 <br>![image](https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/1.png)
 <br>![image](https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/2.png)
 2.	Add object in unity, in this scene, there are 2 types of game object
