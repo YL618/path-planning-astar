@@ -45,9 +45,9 @@ public class Manager : MonoBehaviour
     public GameObject targ18;
     public GameObject targ19;
 
-
     public LayerMask unwalkableMask;
-    public List<Vector3> relative;
+
+    List<Vector3> relative;
 
     List<Node> path;
     Vector3[] waypoints;
@@ -59,16 +59,13 @@ public class Manager : MonoBehaviour
     bool FollowFinish=true;
     bool pathSuccess = false;
 
-    //List<GameObject> ObjectList=new List<GameObject>();
     Queue<GameObject> ObjectQueue=new Queue<GameObject>();
     Queue<GameObject> Sequence = new Queue<GameObject>();
-    // Start is called before the first frame update
+
     public IEnumerator Start()
     {
-        //Debug.Log("1111111111111111111111111111 MANAGER START 1111111111111111111111111111111");
-
+        
         sw.Start();
-
         GameObject astar = GameObject.Find("A*");
         ManagerGrid = astar.GetComponent(typeof(Grid)) as Grid;//get grid value
 
@@ -90,18 +87,11 @@ public class Manager : MonoBehaviour
         ObjectQueue.Enqueue(obj15);
         ObjectQueue.Enqueue(obj16);
         ObjectQueue.Enqueue(obj17);
-        //ObjectQueue.Enqueue(obj18);
-        //ObjectQueue.Enqueue(obj19);
-
-        //ObjectQueue.Enqueue(obj2);
-        //ObjectQueue.Enqueue(obj3);
-        //ObjectQueue.Enqueue(obj5);
-        //ObjectQueue.Enqueue(obj6);
+        ObjectQueue.Enqueue(obj18);
+        ObjectQueue.Enqueue(obj19);
 
         while (ObjectQueue.Count>0)
         {
-            //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! Queue count !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            //Debug.Log(ObjectQueue.Count);
 
             GameObject objTemp = ObjectQueue.Dequeue();
             unit_comp = objTemp.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
@@ -118,7 +108,6 @@ public class Manager : MonoBehaviour
 
             if (!Movable(ObjPath))//if fail, unit set off, break
             {
-                //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 ObjectQueue.Enqueue(objTemp);
                 unit_comp.enabled = false;
                 Clear(unit_comp);
@@ -126,76 +115,19 @@ public class Manager : MonoBehaviour
             }
             else//if path success,move
             {
-                //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                print("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 Sequence.Enqueue(objTemp);
                 yield return this.StartCoroutine(unit_comp.FollowPath());
             }
             yield return null;
 
         }
-
-
-        print("!!!!!!!!!!!!!!!!!!!!!!!! LALALAALLALALALALLA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  
         if (ObjectQueue.Count == 0)
         {
             sw.Stop();
-            print("Finish Disassemble, total time" + sw.ElapsedMilliseconds + "ms");
         }
-
-
-
     }
-    //foreach (GameObject obj in ObjectList)
-    //{
-    //    Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SWITCH GAME OBJ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    //    //想要只有在前一个path走完之后再走
-
-    //    unit_comp = obj.GetComponent(typeof(Unit)) as Unit;//get the unit of this object
-    //    unit_comp.enabled = true;
-    //    ManagerGrid.CheckUnwalkable();
-    //    unit_comp.SetGrid(ManagerGrid);
-    //    unit_comp.ManagerGridForUnit();
-    //    //unit_comp.GridForUnit();
-    //    unit_comp.StartFindPath(obj.transform.position, unit_comp.target.position);
-
-    //        //unit_comp.enabled = true;//start unit do the pathfinding in unit, will always fiure out a path
-    //                                 //ObjWaypoints = unit_comp.WayPoints();
-
-    //        //since the system will go through the strat function before calling unit's start function
-    //        //we have to move all the commands in unit's start function here!!!!!
-
-    //        //unit_comp.SetGrid(ManagerGrid);
-
-    //        //unit_comp.ManagerGridForUnit();
-    //        //StartFindPath(obj.transform.position, unit_comp.target.position);//only find, not move
-
-    //        //StartFindPath(obj.transform.position, unit_comp.target.position, unit_comp);
-
-    //        //After that the path isn't empty anymore
-    //        List<Node> ObjPath;
-    //        ObjPath = unit_comp.PathTranfer();//get the path from unit
-
-    //        if (!Movable(ObjPath))//if fail, unit set off, break
-    //        {
-    //            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FAILTO FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    //            ObjectList.Remove(obj);
-    //            ObjectList.Add(obj);
-    //            unit_comp.enabled = false;
-    //            continue;
-    //        }
-    //        else//if path success,move
-    //        {
-    //            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! SUCCESS ManagerFollowpath !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    //            unit_comp.ManagerFollowpath();//有可能这句有问题！！！
-    //            //yield return new WaitForFixedUpdate(unit_comp);
-
-    //            //yield return null;
-    //        }
-    //}
-
-
-    bool Movable(List<Node> CheckList)
+    bool Movable(List<Node> CheckList)//need to check if the gennereated path contain any unwalkable node
     {
         bool movable = true;
         foreach (Node node in CheckList)
@@ -206,20 +138,13 @@ public class Manager : MonoBehaviour
         return movable;
     }
 
-    void Clear(Unit unit)
+    void Clear(Unit unit)//need to reset all the mombers to avoid overflow
     {
-        unit.relative.Clear();
+        unit.CheckRelativeClear();
         unit.path.Clear();
         unit.NodeForUnit.Clear();
-        unit.waypoints= new Vector3[0];
-    }
-
-
-
-
-
-    void Update()
-    {
+        unit.CheckWaypointsClear();
 
     }
+
 }

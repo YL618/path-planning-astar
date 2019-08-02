@@ -6,14 +6,13 @@ using System;
 public class Unit : MonoBehaviour
 {
     public Transform target;
-    public LayerMask unwalkableMask;
-    public List<Vector3> relative;
+    public LayerMask unwalkableMask;//very improtant for the collision detection 
     public List<Node> path = new List<Node>();
     public HashSet<Node> NodeForUnit = new HashSet<Node>();
-    public Vector3[] waypoints;
-    //Vector3[] path;
+
+    Vector3[] waypoints;
+    List<Vector3> relative;
     Grid _grid;
-    //Node gridNode;
     Grid Agrid;
     bool pathSuccess = false;
     float speed = 200;
@@ -21,37 +20,29 @@ public class Unit : MonoBehaviour
     int relX;
     int relY;
     int bigger;
-    //int size ;
-    public void Start()
-    {
-        //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.x, target.rotation.x);
-        //Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! UNIT START !!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //GameObject astar = GameObject.Find("A*");
-        //_grid = astar.GetComponent(typeof(Grid)) as Grid;
-        //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
 
-        //_grid.CheckUnwalkable();
-        //GridForUnit();
-        //StartFindPath(transform.position, target.position);//only find, not move
-
-        //Debug.Log("8888888888888888888888   START END   88888888888888888888888888888888888888888");
-        //GameObject.Find("").SendMessage("");
-        //_grid.NodeFromWorldPoint(transform.position);
-    }
-
-    public void SetGrid(Grid incomeGrid)
+    public void SetGrid(Grid incomeGrid)//grid need to updated every time before moving the wall
     {
         _grid = incomeGrid;
     }
+
+    public void CheckRelativeClear()
+    {
+        relative.Clear();
+    }
+    public void CheckWaypointsClear()
+    {
+        waypoints = new Vector3[0];
+    }
+
     public void StartFindPath(Vector3 startPos, Vector3 targetPos)
     {
         //StartCoroutine(FindPath(startPos, targetPos));
         FindPath(startPos, targetPos);
     }
     //    IEnumerator FindPath(Vector3 startPos, Vector3 targetPos)
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    void FindPath(Vector3 startPos, Vector3 targetPos)//change the original IEnumerator to normal function, but IEnumerator may still work 
     {
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! BEGIN FIND PATH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         waypoints = new Vector3[0];
         //bool pathSuccess = false;
         Node startNode = _grid.NodeFromWorldPoint(startPos);
@@ -67,7 +58,6 @@ public class Unit : MonoBehaviour
             if (currentNode == targetNode)
             {
                 pathSuccess = true;
-                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! FIND PATH IN FUNCTION !!!!!!!!!!!!!!!!!!!!!!!!!!");
                 break;
             }
             foreach (Node neighbour in _grid.GetNeighbours(currentNode))
@@ -78,36 +68,22 @@ public class Unit : MonoBehaviour
                     if (!neighbour.walkable)
                         {
                             neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                            //Debug.Log("///////////////////////// UNWALKABLE  ///////////////////////////////");
-                            //Debug.Log(neighbour.worldPosition);
                             number++;
                         }
                 if (checkR)
                 {
-                    //if (NodeForUnit.Contains(neighbour))
-                    //{
-                    //    neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
-                    //    neighbour.walkable = true;
-
-                    //}
-                    //else
-                    //{
                     neighbour.hCost = GetDistance(neighbour, targetNode) * 100000;
                     neighbour.walkable = false;
-                    //} 
-                    //Debug.Log("////////////////////////////////////////////////////////////////////// CHECKR  ///////////////////////////////");
                 }
                 if (NodeForUnit.Contains(neighbour))
                     {
                         neighbour.hCost = GetDistance(neighbour, targetNode);
                         neighbour.walkable = true;
                     }
-                    //Debug.Log("///////////////////////// HIGH H  ///////////////////////////////");
-               
-                    
-                //所有前期处理，H都设好
+   
+                //Heuristic Part
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
-                //neighbour.gCost = newMovementCostToNeighbour;
+
                 if (closedSet.Contains(neighbour))
                 {
                     continue;
@@ -116,8 +92,6 @@ public class Unit : MonoBehaviour
                 {
                     neighbour.gCost = newMovementCostToNeighbour;
                     neighbour.parent = currentNode;
-                    //if (!openSet.Contains(neighbour))
-                    //    openSet.Add(neighbour);
                 }
                 if (!openSet.Contains(neighbour))
                 {
@@ -127,18 +101,11 @@ public class Unit : MonoBehaviour
                 }
             }
         }
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! BEFORE Y  !!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         //only find, not move
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! BEFORE IF  !!!!!!!!!!!!!!!!!!!!!!!!!!");
         if (pathSuccess)//to change the path
         {
-            Debug.Log("///////////////////////// FIND A PATH, RETRACE PATH  ///////////////////////////////");
             waypoints = RetracePath(startNode, targetNode);
-
-            Debug.Log("///////////////////////// WAYPOINTS  ///////////////////////////////");
-            Debug.Log(waypoints.Length);
-            //StartCoroutine(FollowPath());
         }
         else
             Debug.Log("BBBBB");
@@ -149,9 +116,11 @@ public class Unit : MonoBehaviour
     {
         return pathSuccess;
     }
-    bool CheckRelative(List<Vector3> list, Vector3 vec1)
+
+    //This function is used for checking whether moving to the current node will cause any collision
+    //pass the stored relative Vector position storeds in relative to CheckRelative and see wheter there will a collision
+    bool CheckRelative(List<Vector3> list, Vector3 vec1) 
     {
-        //Debug.Log("------------------check-relative-----------------------------------");
         bool check = false;
         Vector3 relatePosition;
 
@@ -185,9 +154,8 @@ public class Unit : MonoBehaviour
     {
         return RetracePath(startNode, endNode);
     }
-    Vector3[] RetracePath(Node startNode, Node endNode)//also get the right path of list node
+    Vector3[] RetracePath(Node startNode, Node endNode)//get the right path of list node
     {
-        Debug.Log("///////////////////////// START RETRACE PATH  ///////////////////////////////");
         Node currentNode = endNode;
         while (currentNode != startNode)
         {
@@ -197,9 +165,6 @@ public class Unit : MonoBehaviour
         Vector3[] theWaypoints = PathA(path);
         Array.Reverse(theWaypoints);
         path.Reverse();
-        Debug.Log("///////////////////////// FINISH RETRACE PATH  ///////////////////////////////");
-        Debug.Log("///////////////////////// LENGTH OF PATH  ///////////////////////////////");
-        Debug.Log(path.Count);
         return theWaypoints;
     }
     public List<Node> PathTranfer()//return the finding path to manager
@@ -232,7 +197,7 @@ public class Unit : MonoBehaviour
         StartCoroutine(FollowPath());
         //FollowPath();
     }
-    public IEnumerator FollowPath()//IEnumerator 
+    public IEnumerator FollowPath()
     {
         Debug.Log("zzzzzzzzzzzzzzzzzzzzzzzzz  FOLLOW PATH  zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
         Vector3 currentWaypoint = waypoints[0];
@@ -247,13 +212,6 @@ public class Unit : MonoBehaviour
                     targetIndex = 0;
                     waypoints = new Vector3[0];
                     transform.position = target.position;
-                    Debug.Log("------------------------------- FOLLOW PATH FINISH ----------------------------------------------");
-                    //transform.rotation.x=target.rotation.x;
-                    //transform.rotation.x = target.rotation.y;
-                    //transform.rotation.x=target.rotation.z;
-                    //transform.localEulerAngles = new Vector3(target.rotation.x, target.rotation.y, target.rotation.z);
-                    //Debug.Log("-----------------------------------------------------------------------------");
-                    //break;
                     yield break;
                 }
                 currentWaypoint = waypoints[targetIndex];
@@ -269,9 +227,12 @@ public class Unit : MonoBehaviour
     {
         GridForUnit();
     }
+
+    //store the relative position between each node the current wall occupies and the node for the wall's center
+    //store them for the later use of checking the collision in CheckRelative function
+    //also note that we need to set the node current wall occupys to walkable, otherwise the path will always contains unwalkable nodes
     void GridForUnit()
     {
-        Debug.Log("&&&&&&&&&&&&&&&&&&&&&&&& GRID FOR UNIT &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
         Node centerNode;
         GameObject bstar = GameObject.Find("A*");
         relative = new List<Vector3>();
@@ -279,65 +240,35 @@ public class Unit : MonoBehaviour
         centerNode = Agrid.NodeFromWorldPoint(transform.position);
         //get all the grid information for the unit
 
+        //draw an area for the nodes the current wall occupies
         relX = Mathf.CeilToInt(transform.localScale.x);
         relY = Mathf.CeilToInt(transform.localScale.z);
 
         int Xcount= Mathf.CeilToInt(relX / (_grid.nodeRadius * 2))+2;
         int Ycount= Mathf.CeilToInt(relY / (_grid.nodeRadius * 2))+2;
 
-        //if (relX < relY)
-        //    bigger = Mathf.CeilToInt(relY / (_grid.nodeRadius * 2));
-        //else
-        //    bigger = Mathf.CeilToInt(relX / (_grid.nodeRadius * 2));
-
-        Debug.Log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   RELY    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        //Debug.Log(bigger);
-        //MESH COLLIDER
         Vector3 halfExtents;
         halfExtents.x = Agrid.nodeRadius;
         halfExtents.y = Agrid.nodeRadius;
         halfExtents.z = Agrid.nodeRadius;
 
-        //if (Mathf.CeilToInt(bigger / 2) == Mathf.CeilToInt((bigger + 1) / 2))//odd
-        //    bigger++;
+
         for (int i = 0; i < Xcount; i++)
         {
             for (int j = 0; j < Ycount; j++)
             {
-                //Physics.CheckSphere(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(bigger/2) + i, centerNode.gridY - Mathf.CeilToInt(bigger / 2) + j].worldPosition, Agrid.nodeRadius, unwalkableMask)
-                Quaternion qua;
-                qua = Quaternion.Euler(0, 0, 0);
                 if (Physics.CheckBox(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].worldPosition, halfExtents, transform.rotation, unwalkableMask))
                 {
                     relative.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].worldPosition - transform.position);
                     NodeForUnit.Add(Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j]);
                     Agrid.grid[centerNode.gridX - Mathf.CeilToInt(Xcount / 2) + i, centerNode.gridY - Mathf.CeilToInt(Ycount / 2) + j].walkable = true;
-                    //Debug.Log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP   IS RELATIVE   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
                 }
             }
         }
-        Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!! RELATIVE COUNT !!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Debug.Log(relative.Count);
-
     }
-
-    //set waypoints for the obj
 
     public void OnDrawGizmos()
     {
-        //Gizmos.DrawWireCube(transform.position, new Vector3(_grid.gridWorldSize.x, 1, _grid.gridWorldSize.y));
-        //if (_grid.grid != null)//&& displayGridGizmos)
-        //{
-        //    foreach (Node n in _grid.grid)
-        //    {
-        //        Gizmos.color = (n.walkable) ? Color.white : Color.red;
-        //        Gizmos.DrawCube(n.worldPosition, Vector3.one * ((_grid.nodeRadius * 2) - .1f));
-        //    }
-        //}
-
-
-
-
         if (waypoints != null)
         {
             for (int i = targetIndex; i < waypoints.Length; i++)
