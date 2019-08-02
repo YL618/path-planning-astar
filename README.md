@@ -33,13 +33,13 @@ There are four steps for implementing the A* algorithm in the assembly situation
 First, a grid was setup to create all the available nodes in our world environment. 
 Next, the heuristic (h) value of the formula was modified and marked whether each node was walkable. For this step, three aspects need to be taken into consideration. 
 
-	* The Physics function in Unity detects the nodes occupied by an object on the plane. These nodes are assigned 
+* The Physics function in Unity detects the nodes occupied by an object on the plane. These nodes are assigned 
 	<br>a high h value to mark the node as unwalkable
-	* The unoccupied nodes are then checked to see which ones will cause a collision between walls if the to-move 
+* The unoccupied nodes are then checked to see which ones will cause a collision between walls if the to-move 
 	<br>wall is on the node. The number of nodes a wall occupies on either side of its center is stored, and the 
 	<br>Physics function is used to determine if a collision occurs as the wall moves to a specific node. 
 	<br>If a collision occurs at a node, the node is assigned a high h value.
-	* All the other nodes are safe to move on. They are assigned a low h value to mark them as walkable.
+* All the other nodes are safe to move on. They are assigned a low h value to mark them as walkable.
 
 Third, start A* pathfinding. Beginning with the start node, the algorithm will select the neighbor (collection of nodes) 
 with the lowest f value before each step. Note, since we already modified the h value of each node and we know the formula
