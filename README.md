@@ -66,6 +66,7 @@ For every process, we moved the wall to the target position and deleted this wal
 <br>The whole process is shown in the picture below (see Figure 2). With this process, we are able to predict the right sequence for moving all the walls. For example, in the figure below (see Figure 3), the wall marked with stripes was stored as the 3rd wall the original sequence of the queue, but it will cause collision with the dotted wall if we don’t move the dotted wall from its original position. Following the process of the algorithm, we will skip the striped wall first by deleting it from the current position and add to the last position of the queue to see if we can generate an identical path for it later.
 <br><div align=center><img width="400" height="250" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/9.png"/></div>
 
+<br><p align="center">诶嘿</p>
 <br><center>诶嘿</center>
 
 <br><div align=center><img width="500" height="150" src="https://github.com/LOYOJO990618/path-planning-astar/blob/master/SmallExample/Picture/10.png"/></div>
